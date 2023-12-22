@@ -26,6 +26,7 @@ As the articles are clearly separated into negative (<-0.5), positive (>0.5) or 
 
 
 ### Is the sentiment prevalent in any topic?
+A first way to look at the data and see if we find something is to look at the wikipedia categories.
 It is known that Wikipedia articles cover a wide range of topics, and sentiment within these articles of the same topic can be consistent with the subject matter. To investigate how sentiment is prominent within a topic, we utilised the topic data from categories.tsv dataset and studied the sentiment score of these extracted topics at different level of generality.
 
 Please visit [this link](https://yrymax.github.io/ada-project-statsquad3/visual/) for an interactive story telling.
@@ -84,7 +85,7 @@ Descriptive visualisations are nice, but they can often hide information from us
 While at first glance this model seems innocent, it hides some hidden misinformation. At the 0.05 significance level, the coefficient for the articles with reached targets is not significant, while the coefficient for the articles with unreached targets is significant. We conclude that unreached targets lower the average game length... This conclusion is clearly trivial: when players give up, it shortens the path length.
 
 It would have been interesting to observe that, for instance, negative targets are more likely to make the player give up than positive targets. However, it does not seem to be the case. What does that tell us about human psychology online? When exploring the web, have we become completely insensible machines, completely unmindful of the information that we are reading? In a competitive context where both time and strategy are competing inside one's thinking process, it seems that from our analyses we cannot reach a unified conclusion about the effect of the target article's sentiment.
-
+Remember the previous cool graph showing the paths ? It didn’t show any special path arc, however there are indeed a lot of paths, so maybe they are just hidden under the mass of neutral paths. This is investigated further in the next point.
 
 ## Emotional Arc Analysis in Narrative Paths
 
@@ -99,6 +100,7 @@ Our analysis yielded insightful clusters, each representing distinct emotional t
   <img src="assets/img/brando3.jpg" width="45%" />
 </div>
 
+We saw that there are some characteristic path arcs. However, these were based on the paths divided in three parts. Maybe we can find something interesting if we look at one specific arc, but this time in detail (article per article)?
 
 ## Are there noticeable patterns of sentiment oscillation in the paths chosen by players?
 we're exploring whether there's a pattern in how players choose their paths in Wikispeedia based on sentiment oscillation. Specifically, we're curious to see if players are drawn to paths with dramatic sentiment shifts, like going from an article with a positive tone to one that's decidedly negative. Our approach includes analyzing the overall distribution of sentiment oscillations in player choices and determining if players generally opt for paths with greater or lesser sentiment variance than the average level in the game. We're also looking into what factors might influence these choices, providing insight into how sentiment affects the journey through Wikispeedia.
