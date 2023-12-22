@@ -128,7 +128,7 @@ title: 'Tag Index'
     var xScale = null;
     var yScale = null;
     var circles = null;
-d3.csv("assets/dataset/articles_class.csv").then(
+d3.csv("https://yrymax.github.io/ada-project-statsquad3/assets/dataset/articles_class.csv").then(
 function(data){ 
      xScale = d3.scaleLog()
         .domain([d3.min(data, d => +d.pos), d3.max(data, d => +d.pos)])
@@ -392,7 +392,7 @@ svg.selectAll(".class2").remove()
         chip.classList.remove('scrolled-neg');
     }
 
-    const lv1_data = './assets/dataset/topic_lv1_sentiment.csv';
+    const lv1_data = 'https://yrymax.github.io/ada-project-statsquad3/assets/dataset/topic_lv1_sentiment.csv';
 
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
