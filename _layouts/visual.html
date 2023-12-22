@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Category Level 1 Visualization</title>
   <style>
@@ -40,12 +42,10 @@
 
 
     /* Add some styling for the blank space at the end */
-    .blank-space {
-      height: 4000px; /* Adjust the height as needed to create a longer scroll */
-    }
+
 
     body {
-        height: 300vh;
+        height: 200vh;
           color: rgb(46, 60, 91);
           background-color: #e0e5eb;
         
@@ -62,27 +62,6 @@
       cursor: pointer;
     }
 
-
-      #nbr {
-        margin-left: 200px;
-        font-size: 180px;
-        display: inline-block;
-        font-style: italic;
-        font-family: 'Bodoni Moda', serif;
-        font-weight: 900;
-      }
-      #nbr1 {
-        font-size: 180px;
-        display: inline-block;
-        font-family: 'Bodoni Moda', serif;
-        font-weight: 900;
-      }
-      #nbr2 {
-        font-size: 180px;
-        display: inline-block;
-        font-family: 'Bodoni Moda', serif;  
-        font-weight: 900;
-      }
       #intro {
         width:100%;
         font-size: 40px;
@@ -100,14 +79,20 @@
         margin-left: 5vh;
         position: sticky;
         top: 20px;
-        font-size: 50px;
+        font-size: 20px;
         
+      }
+      #scatter-plot {
+        margin-top: 20vh;
+        margin-left: 5vh;
+        position: sticky;
+        top: 20px;
+        font-size: 20px;
+
       }
       .par {
         margin-left: 75vw ;
         width: 15vw;
-        height: 40vw;
-        margin-bottom: 75vw ;
         z-index: 999;
         font-size: 30px;
       }
@@ -118,54 +103,143 @@
   </style>
 </head>
 <body>
-
-   
-      <div id="lane" style="font-family: Arial, Helvetica, sans-serif, Cochin, Georgia, Times, 'Times New Roman', sans-serif;">
-        <div id="sticky" width="1200" height="1000"  style="width: 70%; height: 100px; float: left; " >
-        </div>
-               <br>
-          <br>
-  
-          <label for="high" class="par">Positive Topic</label>
-           <input type="radio" name="hideshow" value="high">
-           <br>
-           <label for="medium" class="par">Neutral Topic</label>
-          <input type="radio" name="hideshow" value="medium">
-          <br>
-          <label for="low" class="par">Negative Topic</label>
-          <input type="radio" name="hideshow" value="low">
-          <br>
-          <br>
-          <label for="all" class="par">Show all</label>
-          <input type="radio" name="hideshow" value="all">
-          
-        <br>
-        <br>
-        </p>
-  
+    <div id="lane" style="font-family: Arial, Helvetica, sans-serif, Cochin, Georgia, Times, 'Times New Roman', sans-serif;">
+        
+        <div id ='sticky' width="1200" height="700"  style="width: 70%; height: 100px; float: left; "> </div>
         <p id="step1" class="par">
-          From the dataset given, there are 11 general topics that the article fall into.
-        </p>
-        <p id="step2" class="par">
-          Let's see more specific topics inside "Art". Click on another topic to investigate. Scroll down to continue.
-        </p>
-
-        <p id="step3" class="par">
-          Looking at this histogram, we can see that most of the countries whose life expectancy under 60 have low sanitation level; meanwhile, ones whose 70 or higher have high sanitation level.
-        </p>
-
-          <p id="step4" class="par">
-            As can be seen from the map, there are areas with darker color, representing relatively lower level of sanitary. The areas are quite compact, locating around Africa and India.
+            From the dataset given, there are 15 general topics that the article fall into. The sentiment, denoted as colors, was aggregated from all articles. 
+            We can see that only Mathematics is a neutral topic, while the other are either positive or negative.
           </p>
-  
+          
+        <svg width="1200" height="800" id="scatter-plot" class="sticky"> </svg>  
+        
+        <p id="step2" class="par">
+            Let's see more specific topics inside "Art". Click on another topic to highlight.
+          </p>
+       
           
       </div>
   
-  <script>
+  <script >
     // Function to process CSV file
 
-    let chosen_chip = null;
+    const r = 5;
+    let lock2 = true;
+    var svg = d3.select("#scatter-plot");
+    var xScale = null;
+    var yScale = null;
+    var circles = null;
+d3.csv("articles_class.csv").then(
+function(data){ 
+     xScale = d3.scaleLog()
+        .domain([d3.min(data, d => +d.pos), d3.max(data, d => +d.pos)])
+        .range([0, 900]);
 
+     yScale = d3.scaleLog()
+        .domain([d3.min(data, d => +d.neg), d3.max(data, d => +d.neg)])
+        .range([0, 400]);
+        
+    
+    
+    svg.attr("transform", "translate(20, 400)")
+          .classed("label", true)
+          .attr("class", "class1")
+   
+
+    var defs = svg.append("defs");
+    var filter = defs.append("filter")
+        .attr("id", "drop-shadow")
+        .attr("height", "120%");
+    
+    filter.append("feGaussianBlur")
+        .attr("in", "SourceAlpha")
+        .attr("stdDeviation", 2)
+        .attr("result", "blur");
+    filter.append("feOffset")
+        .attr("in", "blur")
+        .attr("dx", 3)
+        .attr("dy", 3)
+        .attr("result", "offsetBlur");
+
+    var feMerge = filter.append("feMerge");
+    feMerge.append("feMergeNode")
+        .attr("in", "offsetBlur")
+    feMerge.append("feMergeNode")
+        .attr("in", "SourceGraphic");
+
+    circles = svg.selectAll("circle")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("cx", d => Math.random() **0.7 *80 + chosen_chips[d.category_lvl1].x_center)
+        .attr("cy", d => Math.random() **0.6*80 + chosen_chips[d.category_lvl1].y_center)
+        .attr("r", r)
+        .attr('opacity', 0.3)
+        .attr("fill", "steelblue")
+        .on('mouseover', function (e, d) {
+            d3.select(this).transition()
+                .duration('50')
+                .attr('r', function (e, d){
+                
+                    return r*2
+                    }
+                )
+                var article_name = d.article.substring(0,12)
+                var topiclv1 = "Topic: " + d.category_lvl1.substring(0,10)
+                var topiclv2 = "Specific: " + d.category_lvl2.substring(0,10)
+                var x = d3.select(this).attr("cx")
+                var y = d3.select(this).attr("cy")
+                svg.append("rect")
+                .classed("label", true)
+                .attr("class", "class2")
+                .attr("rx", 6)
+                .attr("ry", 6)
+                .attr("x", x+95)
+                .attr("y",  y-105)
+                .attr("width", 200)
+                .attr('opacity', '.65')
+                .attr("height", 80)
+                .style("filter", "url(#drop-shadow)")
+                .style("fill", "white");
+                svg.append("text")
+                    .classed("label", true)
+                    .attr("class", "class2")
+                    .attr("x",x+65)
+                    .attr("y", y-80)
+                    .text(article_name)
+                    .style("fill","black")
+                    .attr("font-weight",700)
+                    .style("font-size", "25")
+                    .style("font-family", "Helvetica")
+                    svg.append("text")
+                    .classed("label", true)
+                    .attr("class", "class2")
+                    .attr("x",x+85)
+                    .attr("y", y-55)
+                    .text(topiclv1)
+                    .style("fill","black")
+                    .style("font-family", "Helvetica")
+                    svg.append("text")
+                    .classed("label", true)
+                    .attr("class", "class2")
+                    .attr("x",x+85)
+                    .attr("y", y-35)
+                    .text(topiclv2)
+                    .style("fill","black")
+                    .style("font-family", "Helvetica")
+                
+            })
+.on('mouseout', function (d, i) {
+d3.select(this).transition()
+.duration('50')
+.attr('r', function (e, d){return r})              
+svg.selectAll(".class2").remove()
+})
+;
+} )
+
+    let chosen_chip = null;
+    let locked = true;
     const suffixMapping = {
             '1': 'pos',
             '0': 'neu',
@@ -186,7 +260,7 @@
           if (category) {
             categories.add(category + suffixMapping[sentiment]);
             if (!chosen_chips[category]) {
-                chosen_chips[category] = [];
+                chosen_chips[category] =  { x_center: Math.random() * 500, y_center: Math.random() * 200 };
             }    
           }
         }
@@ -224,18 +298,34 @@
     }
 
     function add_subchips(master_chip){
-        console.log(master_chip)
-        const categories  = chosen_chips[master_chip.innerText];
+        text_to_kepp = master_chip.innerText
+        
         const stickyElement = document.getElementById('sticky');
         const childElements = stickyElement.children;
+        if (locked){
         for (let i = childElements.length - 1; i >= 0; i--) {
             const chip = childElements[i];
-            if (chip !== master_chip) {
-                stickyElement.removeChild(chip);
+            if (!chip.innerText.includes(text_to_kepp)) {
+                chip.style.display ='none';
             }
         }
         
+        const categories  = chosen_chips[text_to_kepp];
 
+        for (const category of categories) {
+        const chip = document.createElement('div');
+        chip.className = 'category-chip';
+        chip.innerText = category.slice(0,-3);
+        master_chip.appendChild(chip);
+        
+        chip.classList.add(category.slice(-3));
+        chip.addEventListener('click', function () {
+            highlight(chip);
+        })
+      }
+    }
+        locked = false;
+        
         
     }
 
@@ -243,44 +333,53 @@
         const scrolledChips = document.querySelectorAll('.category-chip');
         
         for (const chip of scrolledChips) {
-
-          if (window.innerHeight -600 >= step2.getBoundingClientRect().y &&
-          step2.getBoundingClientRect().y > 0) {
-            
             if (chip.classList.contains('pos')) {chip.classList.add('scrolled-pos');}
             else if (chip.classList.contains('neu')) {chip.classList.add('scrolled-neu');}
             else if (chip.classList.contains('neg')) {chip.classList.add('scrolled-neg');}
-            showAll()
-          } else  if (window.innerHeight -600 >= step3.getBoundingClientRect().y &&
-          step3.getBoundingClientRect().y > 0){
-           remove_color(chip)
-           highlight(chosen_chip)
-          }
-          else  if (window.innerHeight -600 >= step4.getBoundingClientRect().y &&
-          step4.getBoundingClientRect().y > 0){
-            console.log("now at step 4")
-            //add_subchips(chip)
-          }
 
-          else {
+          if (window.innerHeight +300 >= step1.getBoundingClientRect().y &&
+          step1.getBoundingClientRect().y > 0 && lock2) {
             showAll()
-            remove_color(chip)
+            
+            circles
+            .transition().duration(50)
+            .attr("cy", function (d) {
+                return yScale(d.neg);
+            })
+            .attr("cx", function (d) {
+                return yScale(d.pos);
+            });
+            lock2 = false;
+          } else  if (window.innerHeight +300 >= step2.getBoundingClientRect().y &&
+          step2.getBoundingClientRect().y > 0){
+            lock2 = true;
+           highlight(chosen_chip);
+           lock3 = false;
           }
+        
         }
       });
-
-    // Replace this function with your actual data plotting logic
+      
+    var first=true;
     function highlight(chip) {
-        if (window.innerHeight -600 >= step3.getBoundingClientRect().y &&
-          step3.getBoundingClientRect().y > 0) {
+        if (window.innerHeight +300 >= step2.getBoundingClientRect().y &&
+          step2.getBoundingClientRect().y > 0) {
+        if (chip ==chosen_chip && !first) {
+            chosen_chip.classList.remove('scrolled-chosen');
+            document.querySelectorAll('.category-chip').forEach(chip => { chip.style.opacity = '1';});
+            circles.transition().duration('50').attr('opacity', 0.3);
+            first = false;}
+        
+        else{
         chosen_chip.classList.remove('scrolled-chosen');
         document.querySelectorAll('.category-chip').forEach(chip => { chip.style.opacity = '0.2';});
         chosen_chip = chip;
         chosen_chip.classList.add('scrolled-chosen');
         chosen_chip.style.opacity='1';
-        console.log('Selected Category:', chip.innerText);
-    
-    }
+        
+          circles.transition()
+          .duration('50')
+          .attr('opacity', d => (d.category_lvl1 ===chosen_chip.innerText) ? 0.3 : 0.01)}}
     }
 
     function showAll() {
@@ -305,20 +404,24 @@
       }
     };
 
+
+
+   
+
     xhr.open('GET', lv1_data, true);
     xhr.send();
 
-    const xhr2 = new XMLHttpRequest();
-    xhr2.onreadystatechange = function () {
-        processCSV2(xhr2.responseText);
-    };
+    // const xhr2 = new XMLHttpRequest();
+    // xhr2.onreadystatechange = function () {
+    //     processCSV2(xhr2.responseText);
+    // };
 
-    const lv2_data = 'topic_lv2_sentiment.csv';
-    xhr2.open('GET', lv2_data, true);
-    xhr2.send();
+    // const lv2_data = 'topic_lv2_sentiment.csv';
+    // xhr2.open('GET', lv2_data, true);
+    // xhr2.send();
 
-  </script>
 
+</script>
   <!-- Blank space at the end of the page -->
   <div class="blank-space"></div>
 
