@@ -6,7 +6,6 @@ title: 'Tag Index'
   <script src="https://d3js.org/d3.v7.min.js"></script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Category Level 1 Visualization</title>
   <style>
     body {
       display: flex;
@@ -393,7 +392,7 @@ svg.selectAll(".class2").remove()
         chip.classList.remove('scrolled-neg');
     }
 
-    const lv1_data = 'assets/dataset/topic_lv1_sentiment.csv';
+    const lv1_data = './assets/dataset/topic_lv1_sentiment.csv';
 
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
