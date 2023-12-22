@@ -70,3 +70,13 @@ To validate this, we conducted regression analysis on the path's oscillation usi
 Model 1 suggests that the impact of the start and end points on the path's oscillation is negligible. As we added more parameters from Model 1 to Model 3, there was no significant improvement in the fit. Notably, while these parameters are all significant, their influence on oscillation seems minimal. The oscillation appears to be related more to the path itself, rather than to any particularly strong influencing factors.
 
 In Model 4, we considered the impact of the difference in emotional values between the start and end points of the path on its oscillation. This parameter, while not significantly influential, showed a moderate correlation (R=0.32) through correlation testing.
+
+### Is the sentiment prevalent in any topic?
+It is known that Wikipedia articles cover a wide range of topics, and sentiment within these articles of the same topic can be consistent with the subject matter. To investigate how sentiment is prominent within a topic, we utilised the topic data from categories.tsv dataset and studied the sentiment score of these extracted topics at different level of generality.
+
+Please visit [this link](https://trminh0711.github.io/study/) for an interactive story telling.
+<div style="display: flex; justify-content: space-around;">
+  <img src="assets/img/minh.png" width="90%" />
+</div>
+
+We can see that most of the topics had quite neutral sentiment, while topics about World War or Natural Disaster appear to be highly negative.
