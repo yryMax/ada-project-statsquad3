@@ -11,11 +11,37 @@ In today's world, where we're constantly bombarded with information from all sid
 This is the focus of our project, "Objectivity through the emotional lens: How does the sentiment of Wikispeedia articles affect player game paths?" We're looking into whether the emotional tone of an article - whether it's positive, negative, or neutral - has an effect on where players go next in the game. Our goal is to find out how the emotions conveyed in text can affect the way we interact with digital content.
 
 ## Are there noticeable patterns of sentiment oscillation in the paths chosen by players?
-we're exploring whether there's a pattern in how players choose their paths in Wikispeedia based on sentiment oscillation. Specifically, we're curious to see if players are drawn to paths with dramatic emotional shifts, like going from an article with a positive tone to one that's decidedly negative. Our approach includes analyzing the overall distribution of sentiment oscillations in player choices and determining if players generally opt for paths with greater or lesser emotional variance than the average level in the game. We're also looking into what factors might influence these choices, providing insight into how sentiment affects the journey through Wikispeedia.
+we're exploring whether there's a pattern in how players choose their paths in Wikispeedia based on sentiment oscillation. Specifically, we're curious to see if players are drawn to paths with dramatic sentiment shifts, like going from an article with a positive tone to one that's decidedly negative. Our approach includes analyzing the overall distribution of sentiment oscillations in player choices and determining if players generally opt for paths with greater or lesser sentiment variance than the average level in the game. We're also looking into what factors might influence these choices, providing insight into how sentiment affects the journey through Wikispeedia.
 
 
-### does user tend to choose links with high/ low osscilation.
-TODO
+### Does user tend to choose links with high/ low osscilation.
+Most people believe that Wikipedia articles are predominantly neutral, as Wikipedia editors are rigorously screened and strive to avoid expressing personal emotions in their descriptions. As evident from the following score distributions, the majority of articles have significantly higher neutral scores compared to other scores, with neutral-themed articles constituting 88% of the total. From a correlation perspective, positive/negative scores vary inversely, as expected.
 
-### what influences oscillation of the path
-TODO
+<div style="display: flex; justify-content: space-around;">
+  <img src="assets/img/distribution_scores.png" width="45%" />
+  <img src="assets/img/scatter_scores.png" width="45%" />
+</div>
+For each link chosen by users, we consider the difference in sentiment endpoints as a criterion for measuring oscillation. The threshold for interpolation is 0.28, meaning we consider a link to be oscillating if the difference in sentiment scores between two articles exceeds 0.28. This threshold was selected based on continuous trials of a specific quantile, followed by random sampling of ten links from the oscillating/non-oscillating groups and subsequent human validation. Several high oscillation links, as defined by this criterion, are illustrated below.
+![high oscillation](assets/img/tot_sent_score_high.png)
+Next, we analyzed every link clicked by users and compared it to the oscillation values, resulting in the distribution shown below. It appears that users generally prefer links with low oscillation frequency, accounting for 6%. However, is this preference due to the predominant neutrality of Wikipedia articles? We conducted a significance test comparing the links chosen by users with the existing links on the network and found no significant difference in oscillation levels.
+![link_analysis](assets/img/link_analysis.png)
+**In other words, the links chosen by users are not selected for their low oscillation levels but rather because Wikipedia articles are inherently neutral.**
+
+### What influences oscillation of the path
+We used the standard deviation of the sentiment value change on each path to represent the oscillation level of that path. The distribution of the results is as follows. Most of the paths chosen by users are non-oscillatory, which aligns with our previous analysis.
+![path_oscill_distribution.png](assets%2Fimg%2Fpath_oscill_distribution.png)
+A natural assumption is that the oscillation strength of the paths chosen by users is related to the sentiment values of the start and end points. As illustrated in the following figure, we can see that the points at the edges (that have extreme values for source and destination) indeed tend to have a higher degree of oscillation.
+![a](assets%2Fimg%2Fscatter_path.png)
+To validate this, we conducted regression analysis on the path's oscillation using various parameters. We utilized four different models, their fitting outcomes and the parameters used, are summarized in the table below. 'Diff' represents the difference in sentiment values between the start and end points of the path.
+
+| Model | R²    | src | dst | 25% quantile | 50% quantile | 75% quantile | Length | Mean | Diff |
+|-------|-------|-----|-----|--------------|--------------|--------------|--------|------|------|
+| 1     | 0.022 | X   | X   |              |              |              |        |      |      |
+| 2     | 0.355 | X   | X   | X            | X            | X            |        |      |      |
+| 3     | 0.439 | X   | X   | X            | X            | X            | X      | X    |      |
+| 4     | 0.1   |     |     |              |              |              |        |      | X    |
+
+
+Model 1 suggests that the impact of the start and end points on the path's oscillation is negligible. As we added more parameters from Model 1 to Model 3, there was no significant improvement in the fit. Notably, while these parameters are all significant, their influence on oscillation seems minimal. The oscillation appears to be related more to the path itself, rather than to any particularly strong influencing factors.
+
+In Model 4, we considered the impact of the difference in emotional values between the start and end points of the path on its oscillation. This parameter, while not significantly influential, showed a moderate correlation (R=0.32) through correlation testing.
