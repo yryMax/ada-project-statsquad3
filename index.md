@@ -57,17 +57,23 @@ What can we learn from this ? Well, people are not influenced by the starting ar
 
 Since the beginning of this ada-venture, we spoke of these paths without really seeing why they are paths. Let's take a closer look:
 
-![neutral_target](assets/img/neutral_target.png)
+<div style="display: flex; justify-content: space-around;">
+  <img src="assets/img/neutral_target.png"/>
+</div>
 Notice that most paths are concentrated around the neutral articles. This is normal! Remember the distribution of our sentiment scores above? Indeed, most articles are classified as neutral.
 
 Note: if you're wondering why there are objects in between game steps, it's because we interpolated the path scores for a much easier visualisation (and much cooler let's be honest this graph is great).
 
 Let's visualise this heatmap for games where the target article is positively or negatively connotated.
 
-![positive_target](assets/img/positive_target.png)
+<div style="display: flex; justify-content: space-around;">
+  <img src="assets/img/positive_target.png"/>
+</div>
 Games where the target article is positive are kind of balanced. But notice how, at the start of games, there seems to be more negativity, while at the end there seems to be more positivity? Note that in these plots we removed the target article, so this really means that positive targets mean positive games! Same goes for negative...
 
-![negative_target](assets/img/negative_target.png)
+<div style="display: flex; justify-content: space-around;">
+  <img src="assets/img/negative_target.png"/>
+</div>
 But... something's clear here: it's much more imbalanced than for games with positive targets! It's pretty clear now that the target article's sentiment influences the path structure, stretching it towards the sentiment direction at the end, and perhaps for the whole game in the case of negative targets. These plots however don't say much about the influence on the game score, in other words, the path length.
 
 How do we win at this games without falling for the sentimentality of the graph? ("<i>Man is a political animal</i>" - Aristotle) 
