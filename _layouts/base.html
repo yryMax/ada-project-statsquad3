@@ -106,7 +106,6 @@ common-js:
 
   {% include nav.html %}
 
-  {{ content }}
   <div id="lane" style="font-family: Arial, Helvetica, sans-serif, Cochin, Georgia, Times, 'Times New Roman', sans-serif;">
         
     <div id ='sticky' width="1200" height="700"  style="width: 70%; height: 100px; float: left; "> </div>
@@ -415,17 +414,10 @@ xhr.onreadystatechange = function () {
 xhr.open('GET', lv1_data, true);
 xhr.send();
 
-// const xhr2 = new XMLHttpRequest();
-// xhr2.onreadystatechange = function () {
-//     processCSV2(xhr2.responseText);
-// };
-
-// const lv2_data = 'topic_lv2_sentiment.csv';
-// xhr2.open('GET', lv2_data, true);
-// xhr2.send();
-
 
 </script>
+{{ content }}
+
   {% include footer.html %}
 
   {% include footer-scripts.html %}
