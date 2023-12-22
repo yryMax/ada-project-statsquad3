@@ -15,7 +15,7 @@ Our analysis is based on the Wikispeedia navigation paths dataset, a dataset tha
 
 For this purpose, we decided to try out different methods, and compare the results to a validation set of articles that were labelled manually. The method that performed the best was the RoBERTa model (Liu et al., 2019). The model was run on all the wikipedia articles' plaintext content to extract three different scores (positive, neutral and negative) that were finally converted into a sole emotional score between -1 and 1. By doing this, we assume that the wikipedia articles are representative of the impression that we get from a word. This is actually not that big of an assumption, as the final scores were compared to manually labelled scores, and they matched most of the time!
 
-So how much positiveness lies in wikipedia pages in general? Well not much: it's a pretty sad world. As we can see from the score distribution, a vast majority of the scores are neutral (86 %), a few are negative (10%), and even less are positive (4%). Does it means people are pessimistic and the word is doomed? It depends, as many words describe objects of human or natural occurence with no emotional connotations. As far as we know, "tables" are not sad nor does one associate them with an emotional response (but who knows?).
+So how much positiveness lies in wikipedia pages in general? Well not much: it's a pretty sad world. As we can see from the score distribution, a vast majority of the scores are neutral (86 %), a few are negative (10%), and even less are positive (4%). Does it mean people are pessimistic and the word is doomed? It depends, as many words describe objects of human or natural occurrence with no emotional connotations. As far as we know, "tables" are not sad nor does one associate them with an emotional response (but who knows?).
 
 ![link_analysis](assets/img/score_distrib.png)
 
@@ -23,12 +23,28 @@ So how much positiveness lies in wikipedia pages in general? Well not much: it's
 ### Is the sentiment prevalent in any topic?
 It is known that Wikipedia articles cover a wide range of topics, and sentiment within these articles of the same topic can be consistent with the subject matter. To investigate how sentiment is prominent within a topic, we utilised the topic data from categories.tsv dataset and studied the sentiment score of these extracted topics at different level of generality.
 
-Please visit [this link](https://trminh0711.github.io/ada_plot/) for an interactive story telling.
+Please visit [this link](https://yrymax.github.io/ada-project-statsquad3/visual/) for an interactive story telling.
 <div style="display: flex; justify-content: space-around;">
   <img src="assets/img/minh.png" width="90%" />
 </div>
 
 We can see that most of the topics had quite neutral sentiment, while topics about World War or Natural Disaster appear to be highly negative.
+
+## Influence of the source and target articles
+
+Since the beginning of this ada-venture, we spoke of these paths without really seeing why they are paths. Let's take a closer look:
+
+![link_analysis](assets/img/neutral_target.png)
+Notice that most paths are concentrated around the neutral articles. This is normal! Remember the distribution of our sentiment scores above? Let's visualise this heatmap for games where the target article is positively or negatively connotated. Note: if you're wondering why there are objects in between game steps, it's because we interpolated the path scores for a much easier visualisation (and much cooler let's be honest this graph is great).
+
+![link_analysis](assets/img/positive_target.png)
+Games where the target article is positive are kind of balanced. But notice how, at the start of games, there seems to be more negativity, while at the end there seems to be more positivity? Note that in these plots we removed the target article, so this really means that positive targets mean positive games! Same goes for negative...
+
+![link_analysis](assets/img/negative_target.png)
+But... something's clear here: it's much more imbalanced than for games with positive targets!
+
+
+![link_analysis](assets/img/statsmodels.png)
 
 
 ## Emotional Arc Analysis in Narrative Paths
