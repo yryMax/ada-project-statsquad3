@@ -58,7 +58,11 @@ What can we learn from this ? Well, people are not influenced by the starting ar
 Since the beginning of this ada-venture, we spoke of these paths without really seeing why they are paths. Let's take a closer look:
 
 ![neutral_target](assets/img/neutral_target.png)
-Notice that most paths are concentrated around the neutral articles. This is normal! Remember the distribution of our sentiment scores above? Let's visualise this heatmap for games where the target article is positively or negatively connotated. Note: if you're wondering why there are objects in between game steps, it's because we interpolated the path scores for a much easier visualisation (and much cooler let's be honest this graph is great).
+Notice that most paths are concentrated around the neutral articles. This is normal! Remember the distribution of our sentiment scores above? Indeed, most articles are classified as neutral.
+
+Note: if you're wondering why there are objects in between game steps, it's because we interpolated the path scores for a much easier visualisation (and much cooler let's be honest this graph is great).
+
+Let's visualise this heatmap for games where the target article is positively or negatively connotated.
 
 ![positive_target](assets/img/positive_target.png)
 Games where the target article is positive are kind of balanced. But notice how, at the start of games, there seems to be more negativity, while at the end there seems to be more positivity? Note that in these plots we removed the target article, so this really means that positive targets mean positive games! Same goes for negative...
@@ -70,7 +74,10 @@ How do we win at this games without falling for the sentimentality of the graph?
 
 Descriptive visualisations are nice, but they can often hide information from us. We proceed by doing a regression analysis to determine the predictive power of the target sentiment to predict the path length. This will tell us if, when given a certain target, how hard we can expect the game to be. The best model is given by:
 ![link_analysis](assets/img/statsmodels.png)
-which shows ...
+
+While at first glance this model seems innocent, it hides some hidden misinformation. At the 0.05 significance level, the coefficient for the articles with reached targets is not significant, while the coefficient for the articles with unreached targets is significant. We conclude that unreached targets lower the average game length... This conclusion is clearly trivial: when players give up, it shortens the path length.
+
+It would have been interesting to observe that, for instance, negative targets are more likely to make the player give up than positive targets. However, it does not seem to be the case. What does that tell us about human psychology online? When exploring the web, have we become completely insensible machines, completely unmindful of the information that we are reading? In a competitive context where both time and strategy are competing inside one's thinking process, it seems that from our analyses we cannot reach a unified conclusion about the effect of the target article's sentiment.
 
 
 ## Emotional Arc Analysis in Narrative Paths
