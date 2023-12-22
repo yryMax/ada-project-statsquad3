@@ -78,7 +78,7 @@ title: 'Sentiment of Topics'
         margin-top: 15vh;
         margin-left: 5vh;
         position: sticky;
-        top: 20px;
+        top: 80px;
         font-size: 20px;
         
       }
@@ -104,14 +104,16 @@ title: 'Sentiment of Topics'
   </style>
 <body>
     <div id="lane" style="font-family: Arial, Helvetica, sans-serif, Cochin, Georgia, Times, 'Times New Roman', sans-serif;">
-        
-        <div id ='sticky' width="1200" height="700"  style="width: 70%; height: 100px; float: left; "> </div>
+      <div id ='sticky' width="1200" height="700"  style="width: 70%; height: 100px; float: left; "> </div>
+
+      <svg width="1200" height="800" id="scatter-plot" class="sticky"> </svg>  
+
+
         <p id="step1" class="par">
             From the dataset given, there are 15 general topics that the article fall into. The sentiment, denoted as colors, was aggregated from all articles. 
             We can see that only Mathematics is a neutral topic, while the other are either positive or negative.
           </p>
           
-        <svg width="1200" height="800" id="scatter-plot" class="sticky"> </svg>  
         
         <p id="step2" class="par">
             Let's see more specific topics inside "Art". Click on another topic to highlight.
@@ -140,8 +142,7 @@ function(data){
         .range([0, 400]);
         
     
-    
-    svg.attr("transform", "translate(20, 400)")
+    svg.attr("transform", "translate(20, 300)")
           .classed("label", true)
           .attr("class", "class1")
    
@@ -171,8 +172,8 @@ function(data){
         .data(data)
         .enter()
         .append("circle")
-        .attr("cx", d => Math.random() **0.7 *80 + chosen_chips[d.category_lvl1].x_center)
-        .attr("cy", d => Math.random() **0.6*80 + chosen_chips[d.category_lvl1].y_center)
+        .attr("cx", d => d.pos*1500 )
+        .attr("cy", d => 100)
         .attr("r", r)
         .attr('opacity', 0.3)
         .attr("fill", "steelblue")
@@ -342,7 +343,7 @@ svg.selectAll(".class2").remove()
             showAll()
             
             circles
-            .transition().duration(50)
+            .transition().duration(1000)
             .attr("cy", function (d) {
                 return yScale(d.neg);
             })
