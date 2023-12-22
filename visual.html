@@ -97,6 +97,61 @@ title: 'Sentiment of Topics'
         z-index: 999;
         font-size: 30px;
       }
+
+      #scroll-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10vw;
+        flex-wrap: wrap;
+        flex-direction: column;
+        }
+      .scroll {
+        width: 60px;
+        height: 60px;
+        border: 2px solid #333;
+        border-radius: 50%;
+        position: relative;
+        margin-bottom: 15px;
+        animation: down 1.5s infinite;
+        -webkit-animation: down 1.5s infinite;
+        &::before {
+          content: '';
+          position: absolute;
+          top: 15px;
+          left: 18px;
+          width: 18px;
+          height: 18px;
+          border-left: 2px solid #333;
+          border-bottom: 2px solid #333;
+          transform: rotate(-45deg);
+        }
+      }
+
+      @keyframes down {
+        0% {
+          transform: translate(0);
+        }
+        20% {
+          transform: translateY(15px);
+        }
+        40% {
+          transform: translate(0);
+        }
+      }
+
+      @-webkit-keyframes down {
+        0% {
+          transform: translate(0);
+        }
+        20% {
+          transform: translateY(15px);
+        }
+        40% {
+          transform: translate(0);
+        }
+      }
+
   
       #start {
         margin-top: -650px;
@@ -105,6 +160,10 @@ title: 'Sentiment of Topics'
 <body>
     <div id="lane" style="font-family: Arial, Helvetica, sans-serif, Cochin, Georgia, Times, 'Times New Roman', sans-serif;">
       <div id ='sticky' width="1200" height="700"  style="width: 70%; height: 100px; float: left; "> </div>
+      <div id ='scroll-container' > 
+        <div class="scroll"> </div> 
+        <p>Scroll Down</p>
+      </div>
 
       <svg width="1200" height="800" id="scatter-plot" class="sticky"> </svg>  
 
