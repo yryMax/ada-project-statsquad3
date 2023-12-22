@@ -20,6 +20,16 @@ So how much positiveness lies in wikipedia pages in general? Well not much: it's
 ![link_analysis](assets/img/score_distrib.png)
 
 
+### Is the sentiment prevalent in any topic?
+It is known that Wikipedia articles cover a wide range of topics, and sentiment within these articles of the same topic can be consistent with the subject matter. To investigate how sentiment is prominent within a topic, we utilised the topic data from categories.tsv dataset and studied the sentiment score of these extracted topics at different level of generality.
+
+Please visit [this link](https://trminh0711.github.io/ada_plot/) for an interactive story telling.
+<div style="display: flex; justify-content: space-around;">
+  <img src="assets/img/minh.png" width="90%" />
+</div>
+
+We can see that most of the topics had quite neutral sentiment, while topics about World War or Natural Disaster appear to be highly negative.
+
 
 ## Emotional Arc Analysis in Narrative Paths
 
