@@ -10,6 +10,24 @@ In today's world, where we're constantly bombarded with information from all sid
 
 This is the focus of our project, "Objectivity through the emotional lens: How does the sentiment of Wikispeedia articles affect player game paths?" We're looking into whether the emotional tone of an article - whether it's positive, negative, or neutral - has an effect on where players go next in the game. Our goal is to find out how the emotions conveyed in text can affect the way we interact with digital content.
 
+
+
+## Emotional Arc Analysis in Narrative Paths
+
+In our study, we then delved into understanding the evolution of emotions in the users' narrative paths. By analyzing emotional arcs within a dataset of paths, each consisting of sentiment scores indicative of changing emotional states, we aimed to uncover the underlying patterns in these narratives. We categorized the paths into five emotional transitions: positive to negative, negative to positive, positive to positive, negative to negative, and mixed emotions. Our methodology centered on analyzing these paths to reveal prevalent emotional trends. We employed a function named 'analyze_emotional_arcs' to classify each path based on its sentiment trajectory. Our analysis unearthed insightful patterns, showing a predominance of mixed emotional arcs over others. 
+
+<div style="display: flex; justify-content: space-around;">
+  <img src="assets/img/brando1.jpg" width="45%" />
+</div>
+
+To further enhance our understanding, we employed clustering techniques on the paths. This approach grouped similar emotional journeys together, uncovering prevalent patterns and themes.
+Our analysis yielded insightful clusters, each representing distinct emotional trajectories. Notably, we found that the most common narrative path maintained a consistent neutral sentiment throughout, as we expected. For paths diverging from this trend, the predominant trajectories included either a negative emotional dip in the middle or a negative sentiment towards the end. Interestingly, the latter showed on average a much lower sentiment result. This is most likely due to users strategically navigating towards related negative subjects when the end target is a negatively perceived article, as it was for more than 80% of the articles in this cluster.
+<div style="display: flex; justify-content: space-around;">
+  <img src="assets/img/brando2.jpg" width="45%" />
+  <img src="assets/img/brando3.jpg" width="45%" />
+</div>
+
+
 ## Are there noticeable patterns of sentiment oscillation in the paths chosen by players?
 we're exploring whether there's a pattern in how players choose their paths in Wikispeedia based on sentiment oscillation. Specifically, we're curious to see if players are drawn to paths with dramatic sentiment shifts, like going from an article with a positive tone to one that's decidedly negative. Our approach includes analyzing the overall distribution of sentiment oscillations in player choices and determining if players generally opt for paths with greater or lesser sentiment variance than the average level in the game. We're also looking into what factors might influence these choices, providing insight into how sentiment affects the journey through Wikispeedia.
 
