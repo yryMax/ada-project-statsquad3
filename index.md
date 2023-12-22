@@ -20,7 +20,7 @@ For this purpose, we decided to try out different methods, and compare the resul
 
 So how much positiveness lies in wikipedia pages in general? Well not much: it's a pretty sad world. As we can see from the score distribution, a vast majority of the scores are neutral (86 %), a few are negative (10%), and even less are positive (4%). Does it mean people are pessimistic and the word is doomed? It depends, as many words describe objects of human or natural occurrence with no emotional connotations. As far as we know, "tables" are not sad nor does one associate them with an emotional response (but who knows?).
 
-![link_analysis](assets/img/score_distrib.png)
+![score_distribution](assets/img/score_distrib.png)
 
 
 ### Is the sentiment prevalent in any topic?
@@ -35,19 +35,40 @@ We can see that most of the topics had quite neutral sentiment, while topics abo
 
 ## Influence of the source and target articles
 
+The starting article is the first thing the player is exposed to when the game begins. It makes sense to ask ourselves if the player is influenced by this article during the game. Indeed, if the starting article is positive, we could maybe expect the player to get ??frivolant?? and unconsciously head towards positive articles.
+The variable which depicts this the most is the percentage of positive articles in the path excluding the first article (we don’t take the first article into account because we look at the probability of having positive articles knowing the starting article score).
+This variable distribution is plotted for each starting article score below.
+
+![negative_source_articles](assets/img/graph_neg.png)
+
+As we can see, the distributions look very similar. To check this, a Man-Whitney U statistical test is performed on the distributions and... as expected, the test confirms that they are indeed not different.
+This tells us that the starting article score does not influence the positivity of the path, but what about its negativity ?
+
+We perform the same analysis and get the the following graphs:
+
+![positive_source_articles](assets/img/graph_pos.png)
+
+Same as before, the distributions look suspiciously similar. And same as before, the Man-Whithney test tells us that… they are indeed not different.
+
+What can we learn from this ? Well, people are not influenced by the starting article when playing the game. Maybe this is just because they want to play really badly, and leave the starting article really quickly without caring much about it. However, they need to keep in mind the target article during the whole game, so maybe this one will have an influence? Let's see.
+
+
 Since the beginning of this ada-venture, we spoke of these paths without really seeing why they are paths. Let's take a closer look:
 
-![link_analysis](assets/img/neutral_target.png)
+![neutral_target](assets/img/neutral_target.png)
 Notice that most paths are concentrated around the neutral articles. This is normal! Remember the distribution of our sentiment scores above? Let's visualise this heatmap for games where the target article is positively or negatively connotated. Note: if you're wondering why there are objects in between game steps, it's because we interpolated the path scores for a much easier visualisation (and much cooler let's be honest this graph is great).
 
-![link_analysis](assets/img/positive_target.png)
+![positive_target](assets/img/positive_target.png)
 Games where the target article is positive are kind of balanced. But notice how, at the start of games, there seems to be more negativity, while at the end there seems to be more positivity? Note that in these plots we removed the target article, so this really means that positive targets mean positive games! Same goes for negative...
 
-![link_analysis](assets/img/negative_target.png)
-But... something's clear here: it's much more imbalanced than for games with positive targets!
+![negative_target](assets/img/negative_target.png)
+But... something's clear here: it's much more imbalanced than for games with positive targets! It's pretty clear now that the target article's sentiment influences the path structure, stretching it towards the sentiment direction at the end, and perhaps for the whole game in the case of negative targets. These plots however don't say much about the influence on the game score, in other words, the path length.
 
+How do we win at this games without falling for the sentimentality of the graph? ("<i>Man is a political animal</i>" - Aristotle) 
 
+Descriptive visualisations are nice, but they can often hide information from us. We proceed by doing a regression analysis to determine the predictive power of the target sentiment to predict the path length. This will tell us if, when given a certain target, how hard we can expect the game to be. The best model is given by:
 ![link_analysis](assets/img/statsmodels.png)
+which shows ...
 
 
 ## Emotional Arc Analysis in Narrative Paths
@@ -99,13 +120,3 @@ To validate this, we conducted regression analysis on the path's oscillation usi
 Model 1 suggests that the impact of the start and end points on the path's oscillation is negligible. As we added more parameters from Model 1 to Model 3, there was no significant improvement in the fit. Notably, while these parameters are all significant, their influence on oscillation seems minimal. The oscillation appears to be related more to the path itself, rather than to any particularly strong influencing factors.
 
 In Model 4, we considered the impact of the difference in emotional values between the start and end points of the path on its oscillation. This parameter, while not significantly influential, showed a moderate correlation (R=0.32) through correlation testing.
-
-### Is the sentiment prevalent in any topic?
-It is known that Wikipedia articles cover a wide range of topics, and sentiment within these articles of the same topic can be consistent with the subject matter. To investigate how sentiment is prominent within a topic, we utilised the topic data from categories.tsv dataset and studied the sentiment score of these extracted topics at different level of generality.
-
-Please visit [this link](https://trminh0711.github.io/ada_plot/) for an interactive story telling.
-<div style="display: flex; justify-content: space-around;">
-  <img src="assets/img/minh.png" width="90%" />
-</div>
-
-We can see that most of the topics had quite neutral sentiment, while topics about World War or Natural Disaster appear to be highly negative.
