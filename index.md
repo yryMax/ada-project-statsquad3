@@ -22,6 +22,8 @@ So how much positiveness lies in wikipedia pages in general? Well not much: it's
 
 ![score_distribution](assets/img/score_distrib.png)
 
+As the articles are clearly separated into negative (<-0.5), positive (>0.5) or neutral, the rounded scores (-1, 0 or 1, respectively negative, neutral and positive) are used in some of the analysis.
+
 
 ### Is the sentiment prevalent in any topic?
 It is known that Wikipedia articles cover a wide range of topics, and sentiment within these articles of the same topic can be consistent with the subject matter. To investigate how sentiment is prominent within a topic, we utilised the topic data from categories.tsv dataset and studied the sentiment score of these extracted topics at different level of generality.
@@ -35,20 +37,20 @@ We can see that most of the topics had quite neutral sentiment, while topics abo
 
 ## Influence of the source and target articles
 
-The starting article is the first thing the player is exposed to when the game begins. It makes sense to ask ourselves if the player is influenced by this article during the game. Indeed, if the starting article is positive, we could maybe expect the player to get ??frivolant?? and unconsciously head towards positive articles.
+The starting article is the first thing the player is exposed to when the game begins. It makes sense to ask ourselves if the player is influenced by this article during the game. Indeed, if the starting article is positive, we could maybe expect the player to get cheerful and unconsciously head towards positive articles.
 The variable which depicts this the most is the percentage of positive articles in the path excluding the first article (we don’t take the first article into account because we look at the probability of having positive articles knowing the starting article score).
 This variable distribution is plotted for each starting article score below.
 
-![negative_source_articles](assets/img/graph_neg.png)
+![negative_source_articles](assets/img/graphs_pos.png)
 
 As we can see, the distributions look very similar. To check this, a Man-Whitney U statistical test is performed on the distributions and... as expected, the test confirms that they are indeed not different.
 This tells us that the starting article score does not influence the positivity of the path, but what about its negativity ?
 
 We perform the same analysis and get the the following graphs:
 
-![positive_source_articles](assets/img/graph_pos.png)
+![positive_source_articles](assets/img/graphs_neg.png)
 
-Same as before, the distributions look suspiciously similar. And same as before, the Man-Whithney test tells us that… they are indeed not different.
+Same as before, the distributions look suspiciously similar. And same as before, the Man-Whithney test tells us that… they are indeed not different!
 
 What can we learn from this ? Well, people are not influenced by the starting article when playing the game. Maybe this is just because they want to play really badly, and leave the starting article really quickly without caring much about it. However, they need to keep in mind the target article during the whole game, so maybe this one will have an influence? Let's see.
 
