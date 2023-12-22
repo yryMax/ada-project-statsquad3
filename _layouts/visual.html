@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category Level 1 Visualization</title>
+  <style>
+    body {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      height: 100vh; /* Set a fixed window size for demonstration */
+      margin: 0;
+      overflow-y: auto; /* Add scrollbar if content exceeds window size */
+    }
+
+    .category-chip {
+      display: inline-block;
+      color: #ffffff;
+      background-color: rgba(37, 37, 208, 0.514);
+      border-radius: 20px;
+      padding: 10px 20px;
+      margin: 5px;
+      font-family: Arial, sans-serif;
+      cursor: pointer;
+      transition: background-color 0.5s ease; /* Smooth transition for background color */
+    }
+
+    .category-chip.scrolled-pos {
+      background-color: rgba(37, 208, 63, 0.514) /* Darker color when scrolled */
+    }
+    .category-chip.scrolled-neg {
+      background-color: rgba(208, 37, 37, 0.514) /* Darker color when scrolled */
+    }
+    .category-chip.scrolled-neu {
+      background-color: rgba(235, 205, 117, 0.514) /* Darker color when scrolled */
+    }
+
+
+
+    /* Add some styling for the blank space at the end */
+    .blank-space {
+      height: 4000px; /* Adjust the height as needed to create a longer scroll */
+    }
+
+    body {
+        height: 300vh;
+          color: rgb(46, 60, 91);
+          background-color: #e0e5eb;
+        
+      }
+
+      .category-chip {
+      display: inline-block;
+      background-color: #4285F4;
+      color: #FFFFFF;
+      border-radius: 20px;
+      padding: 10px 20px;
+      margin: 5px; /* Adjust this value as needed */
+      font-family: Arial, sans-serif;
+      cursor: pointer;
+    }
+
+
+      #nbr {
+        margin-left: 200px;
+        font-size: 180px;
+        display: inline-block;
+        font-style: italic;
+        font-family: 'Bodoni Moda', serif;
+        font-weight: 900;
+      }
+      #nbr1 {
+        font-size: 180px;
+        display: inline-block;
+        font-family: 'Bodoni Moda', serif;
+        font-weight: 900;
+      }
+      #nbr2 {
+        font-size: 180px;
+        display: inline-block;
+        font-family: 'Bodoni Moda', serif;  
+        font-weight: 900;
+      }
+      #intro {
+        width:100%;
+        font-size: 40px;
+        display: inline-block;
+        margin-top: 100px;
+        margin-left: 100px;
+      }
+    
+      #lane {
+        margin-top: 10vh;
+        display: inline-block;
+      }
+      #sticky {
+        margin-top: 15vh;
+        margin-left: 5vh;
+        position: sticky;
+        top: 20px;
+        font-size: 50px;
+        
+      }
+      .par {
+        margin-left: 75vw ;
+        width: 15vw;
+        height: 40vw;
+        margin-bottom: 75vw ;
+        z-index: 999;
+        font-size: 30px;
+      }
+  
+      #start {
+        margin-top: -650px;
+      }
+  </style>
+</head>
+<body>
+
+   
+      <div id="lane" style="font-family: Arial, Helvetica, sans-serif, Cochin, Georgia, Times, 'Times New Roman', sans-serif;">
+        <div id="sticky" width="1200" height="1000"  style="width: 70%; height: 100px; float: left; " >
+        </div>
+               <br>
+          <br>
+  
+          <label for="high" class="par">Positive Topic</label>
+           <input type="radio" name="hideshow" value="high">
+           <br>
+           <label for="medium" class="par">Neutral Topic</label>
+          <input type="radio" name="hideshow" value="medium">
+          <br>
+          <label for="low" class="par">Negative Topic</label>
+          <input type="radio" name="hideshow" value="low">
+          <br>
+          <br>
+          <label for="all" class="par">Show all</label>
+          <input type="radio" name="hideshow" value="all">
+          
+        <br>
+        <br>
+        </p>
+  
+        <p id="step1" class="par">
+          From the dataset given, there are 11 general topics that the article fall into.
+        </p>
+        <p id="step2" class="par">
+          Let's see more specific topics inside "Art". Click on another topic to investigate. Scroll down to continue.
+        </p>
+
+        <p id="step3" class="par">
+          Looking at this histogram, we can see that most of the countries whose life expectancy under 60 have low sanitation level; meanwhile, ones whose 70 or higher have high sanitation level.
+        </p>
+
+          <p id="step4" class="par">
+            As can be seen from the map, there are areas with darker color, representing relatively lower level of sanitary. The areas are quite compact, locating around Africa and India.
+          </p>
+  
+          
+      </div>
+  
+  <script>
+    // Function to process CSV file
+
+    let chosen_chip = null;
+
+    const suffixMapping = {
+            '1': 'pos',
+            '0': 'neu',
+            '-1': 'neg'
+        };
+
+    chosen_chips = {};
+    function processCSV(csvData) {
+      const lines = csvData.split('\n');
+      const categories = new Set();
+ 
+      // Extract unique values from 'category_lvl1' column
+      for (let i = 1; i < lines.length; i++) {
+        const columns = lines[i].split(',');
+        if (columns.length >= 4) {  // Ensure the line has enough columns
+          const category = columns[0].trim();
+          const sentiment = columns[3].trim();
+          if (category) {
+            categories.add(category + suffixMapping[sentiment]);
+            if (!chosen_chips[category]) {
+                chosen_chips[category] = [];
+            }    
+          }
+        }
+      }
+
+      // Create rounded chips for each unique category
+      for (const category of categories) {
+        const chip = document.createElement('div');
+        chip.className = 'category-chip';
+        chip.innerText = category.slice(0,-3);
+        document.getElementById('sticky').appendChild(chip);
+        
+        chip.classList.add(category.slice(-3));
+        chip.addEventListener('click', function () {
+            highlight(chip);
+        })
+        
+      }
+    }
+
+    function processCSV2(csvData) {
+      const lines = csvData.split('\n');
+      
+      for (let i = 1; i < lines.length; i++) {
+        const columns = lines[i].split(',');
+        if (columns.length >= 5) {  // Ensure the line has enough columns
+          const category = columns[0].trim();
+          const sentiment = columns[4].trim();
+          const master_topic = columns[3].trim();
+          if (category) {
+            chosen_chips[master_topic].push(category + suffixMapping[sentiment]);
+          }
+        }     
+     }
+    }
+
+    function add_subchips(master_chip){
+        console.log(master_chip)
+        const categories  = chosen_chips[master_chip.innerText];
+        const stickyElement = document.getElementById('sticky');
+        const childElements = stickyElement.children;
+        for (let i = childElements.length - 1; i >= 0; i--) {
+            const chip = childElements[i];
+            if (chip !== master_chip) {
+                stickyElement.removeChild(chip);
+            }
+        }
+        
+
+        
+    }
+
+    document.addEventListener('scroll', function () {
+        const scrolledChips = document.querySelectorAll('.category-chip');
+        
+        for (const chip of scrolledChips) {
+
+          if (window.innerHeight -600 >= step2.getBoundingClientRect().y &&
+          step2.getBoundingClientRect().y > 0) {
+            
+            if (chip.classList.contains('pos')) {chip.classList.add('scrolled-pos');}
+            else if (chip.classList.contains('neu')) {chip.classList.add('scrolled-neu');}
+            else if (chip.classList.contains('neg')) {chip.classList.add('scrolled-neg');}
+            showAll()
+          } else  if (window.innerHeight -600 >= step3.getBoundingClientRect().y &&
+          step3.getBoundingClientRect().y > 0){
+           remove_color(chip)
+           highlight(chosen_chip)
+          }
+          else  if (window.innerHeight -600 >= step4.getBoundingClientRect().y &&
+          step4.getBoundingClientRect().y > 0){
+            console.log("now at step 4")
+            //add_subchips(chip)
+          }
+
+          else {
+            showAll()
+            remove_color(chip)
+          }
+        }
+      });
+
+    // Replace this function with your actual data plotting logic
+    function highlight(chip) {
+        if (window.innerHeight -600 >= step3.getBoundingClientRect().y &&
+          step3.getBoundingClientRect().y > 0) {
+        chosen_chip.classList.remove('scrolled-chosen');
+        document.querySelectorAll('.category-chip').forEach(chip => { chip.style.opacity = '0.2';});
+        chosen_chip = chip;
+        chosen_chip.classList.add('scrolled-chosen');
+        chosen_chip.style.opacity='1';
+        console.log('Selected Category:', chip.innerText);
+    
+    }
+    }
+
+    function showAll() {
+        document.querySelectorAll('.category-chip').forEach(chip => { chip.style.opacity = '1';});
+    }
+    
+
+    function remove_color(chip) {
+        chip.classList.remove('scrolled-pos');
+        chip.classList.remove('scrolled-neu');
+        chip.classList.remove('scrolled-neg');
+    }
+
+    // Load "articles_class.csv" file
+    const lv1_data = 'topic_lv1_sentiment.csv';
+
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        processCSV(xhr.responseText);
+        chosen_chip = document.querySelectorAll('.category-chip')[0];
+      }
+    };
+
+    xhr.open('GET', lv1_data, true);
+    xhr.send();
+
+    const xhr2 = new XMLHttpRequest();
+    xhr2.onreadystatechange = function () {
+        processCSV2(xhr2.responseText);
+    };
+
+    const lv2_data = 'topic_lv2_sentiment.csv';
+    xhr2.open('GET', lv2_data, true);
+    xhr2.send();
+
+  </script>
+
+  <!-- Blank space at the end of the page -->
+  <div class="blank-space"></div>
+
+</body>
+</html>
