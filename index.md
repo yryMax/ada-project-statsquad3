@@ -11,6 +11,15 @@ In today's world, where we're constantly bombarded with information from all sid
 This is the focus of our project, "Objectivity through the emotional lens: How does the sentiment of Wikispeedia articles affect player game paths?" We're looking into whether the emotional tone of an article - whether it's positive, negative, or neutral - has an effect on where players go next in the game. Our goal is to find out how the emotions conveyed in text can affect the way we interact with digital content.
 
 
+Our analysis is based on the Wikispeedia navigation paths dataset, a dataset that collected information from more than 70'000 games from players of all ages and nationalities. However, no information on the emotional side was provided (imagine if the dlab could read our brains). Therefore, we had to find a way to add this dimension to the data in order to carry out our analysis. We did it in the easiest and most comprehensive way possible: each article was assigned an emotional score between -1 and 1. The more negative the score is, the more negatively connotated the article is. The more positive the score is, (surprise!) the more positively connotated the article is.
+
+For this purpose, we decided to try out different methods, and compare the results to a validation set of articles that were labelled manually. The method that performed the best was the RoBERTa model (Liu et al., 2019). The model was run on all the wikipedia articles' plaintext content to extract three different scores (positive, neutral and negative) that were finally converted into a sole emotional score between -1 and 1. By doing this, we assume that the wikipedia articles are representative of the impression that we get from a word. This is actually not that big of an assumption, as the final scores were compared to manually labelled scores, and they matched most of the time!
+
+So how much positiveness lies in wikipedia pages in general? Well not much: it's a pretty sad world. As we can see from the score distribution, a vast majority of the scores are neutral (86 %), a few are negative (10%), and even less are positive (4%). Does it means people are pessimistic and the word is doomed? It depends, as many words describe objects of human or natural occurence with no emotional connotations. As far as we know, "tables" are not sad nor does one associate them with an emotional response (but who knows?).
+
+![link_analysis](assets/img/score_distrib.png)
+
+
 
 ## Emotional Arc Analysis in Narrative Paths
 
